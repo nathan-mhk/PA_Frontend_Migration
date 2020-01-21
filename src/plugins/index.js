@@ -20,7 +20,8 @@ export default [
   NearestResult,
   ShortestResult,
   Legend,
-  StreetView,
+  /* Disable temporarily until data updated */
+  // StreetView,
   ZoomButton,
   NearestResultMobile,
   LegendButton,
