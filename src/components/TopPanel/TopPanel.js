@@ -9,7 +9,7 @@ import FloorTopPanelView from '../FloorTopPanelView/FloorTopPanelView';
 import { propTypes as urlPropTypes } from '../Router/Url';
 import './TopPanel.css';
 
-function TopPanel({ logger, linkTo, x, y, floor, level, from, to, search }) {
+function TopPanel({ logger, linkTo, x, y, floor, level, from, to, via, search, searchOptions }) {
   return (
     <div className={style.body}>
       <SearchArea
@@ -17,7 +17,9 @@ function TopPanel({ logger, linkTo, x, y, floor, level, from, to, search }) {
         SearchView={SearchTopPanelView}
         from={from}
         to={to}
+        via={via}
         search={search}
+        searchOptions={searchOptions}
         logger={logger}
       />
       {floor && (

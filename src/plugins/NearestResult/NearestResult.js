@@ -3,7 +3,7 @@ import isNil from 'lodash.isnil';
 import style from './NearestResult.module.css';
 import Loading from '../Loading/Loading';
 
-class NearestResult extends Component {
+export class NearestResult extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.searchNearestStore === this.props.searchNearestStore) {
       return;
@@ -19,7 +19,7 @@ class NearestResult extends Component {
       level,
     } = this.props;
 
-    if (nearest && (actionSource !== 'EXTERNAL_LINK' || [floor, x, y, level].some(v => isNil(v)))) {
+    if (nearest && (actionSource === 'BUTTON_CLICK' || [floor, x, y, level].some(v => isNil(v)))) {
       linkTo(
         {
           x: nearest.coordinates[0],
@@ -58,7 +58,6 @@ class NearestResult extends Component {
 
       case searchNearestStore.success: {
         const { from, nearest } = searchNearestStore;
-
         return (
           <div className={style.body}>
             {searchNearestHead}
@@ -102,6 +101,8 @@ class NearestResult extends Component {
 }
 
 const id = 'nearestResult';
+const core = true;
+
 const PrimaryPanelPlugin = {
   Component: NearestResult,
   connect: [
@@ -116,4 +117,4 @@ const PrimaryPanelPlugin = {
   ],
 };
 
-export { id, PrimaryPanelPlugin };
+export { id, core, PrimaryPanelPlugin };

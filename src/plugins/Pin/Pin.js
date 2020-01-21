@@ -6,7 +6,6 @@ const pinImageHeight = 20;
 const PIN_ID = 'PIN_ID';
 
 function Pin({ setMapItems, removeMapItem, from }) {
-  console.log('pin rendered');
   // put a read pin in map if user specified the 'from' value in input field
   const { data: { coordinates: [x, y] = [null, null], floor = null } = {} } = from;
 
@@ -39,4 +38,6 @@ const MapCanvasPlugin = {
 };
 
 const id = 'pin';
-export { id, MapCanvasPlugin };
+const core = true;
+
+export { id, core, MapCanvasPlugin };

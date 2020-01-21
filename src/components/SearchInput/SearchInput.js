@@ -23,6 +23,7 @@ class SearchInput extends Component {
     shouldAutoCompleteDisplay: PropTypes.bool,
     setAutoCompleteDisplay: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
+    autoFocus: PropTypes.bool,
   };
 
   onInputChange = e => {
@@ -56,6 +57,7 @@ class SearchInput extends Component {
       floorStore: { floors, buildings },
       shouldAutoCompleteDisplay,
       onFocus,
+      autoFocus = false,
     } = this.props;
 
     return (
@@ -67,25 +69,25 @@ class SearchInput extends Component {
           value={value}
           placeholder={placeholder}
           onFocus={onFocus}
+          autoFocus={autoFocus}
         />
-        {shouldAutoCompleteDisplay &&
-          !loading && (
-            <ul className={autoCompleteListClassName}>
-              {suggestions.map(({ name, floor, coordinates, id }) => (
-                <li key={id}>
-                  <button
-                    type="button"
-                    onClick={() => this.onClick({ name, floor, coordinates, id })}
-                  >
-                    <span className="name">{name}</span>
-                    <span className="location">
-                      , {buildings[floors[floor].buildingId].name}, floor {floors[floor].name}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+        {shouldAutoCompleteDisplay && !loading && suggestions.length > 0 && (
+          <ul className={autoCompleteListClassName}>
+            {suggestions.map(({ name, floor, coordinates, id }) => (
+              <li key={id}>
+                <button
+                  type="button"
+                  onClick={() => this.onClick({ name, floor, coordinates, id })}
+                >
+                  <span className="name">{name}</span>
+                  <span className="location">
+                    , {buildings[floors[floor].buildingId].name}, floor {floors[floor].name}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }

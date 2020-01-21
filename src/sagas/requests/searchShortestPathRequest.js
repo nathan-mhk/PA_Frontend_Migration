@@ -20,21 +20,28 @@ async function getIdFloorfromKeyword(keyword) {
  */
 
 /**
- * @typedef searchSetting
+ * @typedef searchOptions
  * @property {boolean} [noStairCase]
  * @property {boolean} [noEscalator]
+ * @property {boolean} [stepFreeAccess]
  * @property {string} [searchMode]
  */
 /**
  *
  * @param {searchSearchInput} inputFrom
  * @param {searchSearchInput} inputTo
- * @param {searchSetting} settings
+ * @param {searchSearchInput[]} inputVia
+ * @param {searchOptions} settings
  */
-async function searchShortestPathRequest(inputFrom = {}, inputTo = {}, settings = {}) {
-  const inputs = [inputFrom, inputTo];
+async function searchShortestPathRequest(
+  inputFrom = {},
+  inputTo = {},
+  inputVia = [],
+  settings = {},
+) {
+  const inputs = [inputFrom, inputTo, ...inputVia];
 
-  const [from, to] = await Promise.all(
+  const [from, to, ...via] = await Promise.all(
     inputs.map(async ({ keyword, id }) => {
       if (id) {
         return { id };
@@ -44,22 +51,33 @@ async function searchShortestPathRequest(inputFrom = {}, inputTo = {}, settings 
     }),
   );
 
-  if (!from.id || !to.id) {
-    throw new Error('Invalid start or end point input');
+  if (!from.id || !to.id || via.some(({ id }) => !id)) {
+    throw new Error('Invalid start, via or end point input');
   }
 
-  const { noStairCase, noEscalator, searchMode } = settings;
+  const { noStairCase, noEscalator, searchMode, stepFreeAccess } = settings;
 
-  const response = await axios.get(
-    `${APIEndpoint()}/shortest-path?fromId=${from.id}&toId=${
-      to.id
-    }&mode=${searchMode}&noStairCase=${noStairCase}&noEscalator=${noEscalator}`,
-  );
+  const viaParam = via.length ? `&viaIds[]=${via.map(({ id }) => id).join('&viaIds[]=')}` : '';
+
+  const params = {
+    fromId: from.id,
+    toId: to.id,
+    mode: searchMode,
+    noStairCase,
+    noEscalator,
+    stepFreeAccess,
+  };
+
+  const qs = Object.keys(params)
+    .map(key => `${key}=${encodeURIComponent(params[key])}`)
+    .join('&');
+
+  const response = await axios.get(`${APIEndpoint()}/shortest-path?${qs}${viaParam}`);
 
   return {
     ...response,
     data: (response.data.data || []).map(
-      ({ _id, floorId, distance, coordinates, name, tagIds, imageUrl }) => ({
+      ({ _id, floorId, distance, coordinates, name, tagIds, imageUrl, panoImageUrl }) => ({
         id: _id,
         floor: floorId,
         name,
@@ -67,6 +85,7 @@ async function searchShortestPathRequest(inputFrom = {}, inputTo = {}, settings 
         distance,
         type: (tagIds || [])[0],
         photo: imageUrl,
+        panorama: panoImageUrl,
       }),
     ),
   };

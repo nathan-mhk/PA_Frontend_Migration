@@ -3,11 +3,13 @@ import searchMapItem from './searchMapItem';
 import mapItems from './mapItems';
 import searchNearest from './searchNearest';
 import searchShortestPath from './searchShortestPath';
-import searchOptions from './searchOptions';
+import userActivities from './userActivities';
 import legends from './legends';
 import floors from './floors';
 import overlay from './overlay';
 import appSettings from './appSettings';
+import nearestMapItem from './nearestMapItem';
+import pluginSettings from './pluginSettings';
 
 export default combineReducers({
   appSettings,
@@ -18,5 +20,7 @@ export default combineReducers({
   legends,
   floors,
   overlay,
-  searchOptions,
+  userActivities,
+  nearestMapItem,
+  pluginSettings,
 });
