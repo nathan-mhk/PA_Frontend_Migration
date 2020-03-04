@@ -3,22 +3,25 @@ import { connect } from 'react-redux';
 import isNil from 'lodash.isnil';
 
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import getEnhancedMapItems from './getEnhancedMapItems';
 import { openOverlayAction } from '../../reducers/overlay';
 import { updateLegendDisplayAction } from '../../reducers/legends';
 import { getNearestMapItemAction } from '../../reducers/nearestMapItem';
 import { setUserActivitiesAction } from '../../reducers/userActivities';
+import { setPluginMapItemsAction, clearPluginMapItemsAction } from '../../reducers/pluginMapItems';
 
 const paramStateMap = {
-  legendStore: 'legends',
-  mapItemStore: 'mapItems',
-  floorStore: 'floors',
-  searchNearestStore: 'searchNearest',
-  searchShortestPathStore: 'searchShortestPath',
-  appSettingStore: 'appSettings',
-  overlayStore: 'overlay',
-  searchMapItemStore: 'searchMapItem',
-  nearestMapItemStore: 'nearestMapItem',
-  userActivitiesStore: 'userActivities',
+  legendStore: state => state.legends,
+  mapItemStore: state => getEnhancedMapItems(state),
+  floorStore: state => state.floors,
+  searchNearestStore: state => state.searchNearest,
+  searchShortestPathStore: state => state.searchShortestPath,
+  appSettingStore: state => state.appSettings,
+  overlayStore: state => state.overlay,
+  searchMapItemStore: state => state.searchMapItem,
+  nearestMapItemStore: state => state.nearestMapItem,
+  userActivitiesStore: state => state.userActivities,
+  edgeStore: state => state.edges,
 };
 
 const urlParams = ['place', 'from', 'to', 'via', 'x', 'y', 'level', 'floor', 'searchOptions'];
@@ -38,6 +41,7 @@ const canvasParams = [
   'movingScaledY',
   'nextLevel',
   'previousLevel',
+  'getPosition',
 ];
 
 const paramDispatchMap = {
@@ -53,10 +57,16 @@ const paramDispatchMap = {
   setUserActivitiesHandler: dispatch => payload => {
     dispatch(setUserActivitiesAction(payload));
   },
+  enhanceMapItemsHandler: (dispatch, pluginId) => mapItems => {
+    dispatch(setPluginMapItemsAction(pluginId, mapItems));
+  },
+  clearPluginMapItemsHandler: (dispatch, pluginId) => () => {
+    dispatch(clearPluginMapItemsAction(pluginId));
+  },
 };
 
 /* eslint no-param-reassign: [0] */
-const ConnectedComponent = connectParams => PluginComponent => {
+const ConnectedComponent = (pluginId, connectParams) => PluginComponent => {
   if (!PluginComponent) {
     throw new Error(
       'You must wrap you plugin component in an object { Component: <Your plugin component>, connect: [<param1>, <param2>, ..., <paramN>] }',
@@ -117,14 +127,15 @@ const ConnectedComponent = connectParams => PluginComponent => {
         }
 
         if (paramStateMap[param]) {
-          connectedState[param] = state[paramStateMap[param]];
+          connectedState[param] = paramStateMap[param](state);
         }
+
         return connectedState;
       }, {}),
     dispatch =>
       connectParams.reduce((connectedDispatch, param) => {
         if (paramDispatchMap[param]) {
-          connectedDispatch[param] = paramDispatchMap[param](dispatch);
+          connectedDispatch[param] = paramDispatchMap[param](dispatch, pluginId);
         }
         return connectedDispatch;
       }, {}),

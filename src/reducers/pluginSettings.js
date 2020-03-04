@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import plugins from '../plugins';
+import plugins from '../utils/getPlugins';
 import { PLATFORM } from '../components/Main/detectPlatform';
 
 export const UPDATE_PLUGIN_SETTINGS = 'UPDATE_PLUGIN_SETTINGS';

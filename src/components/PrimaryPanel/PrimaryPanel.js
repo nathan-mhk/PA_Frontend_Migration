@@ -190,6 +190,7 @@ class PrimaryPanel extends Component {
             }
 
             const PluginComponent = getConnectedComponent(
+              id,
               `primaryPanel_${id}`,
               PrimaryPanelPlugin.connect,
               PrimaryPanelPlugin.Component,

@@ -70,11 +70,10 @@ const MapCanvasPlugin = {
   connect: ["from", "setMapItems", "removeMapItem"]
 };
 
-const id = "pin";
 const name = "Pin";
 const defaultOff = false;
 
-export { id, name, defaultOff, MapCanvasPlugin };
+export { name, defaultOff, MapCanvasPlugin };
 ```
 
 ## Implementing the function
@@ -160,11 +159,10 @@ const MapCanvasPlugin = {
   connect: ["from", "setMapItems", "removeMapItem"]
 };
 
-const id = "pin";
 const name = "Pin";
 const defaultOff = false;
 
-export { id, name, defaultOff, MapCanvasPlugin };
+export { name, defaultOff, MapCanvasPlugin };
 ```
 
 Don't forget to update `plugins/index.js` to include this new plugin.

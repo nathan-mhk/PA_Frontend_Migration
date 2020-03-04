@@ -326,10 +326,9 @@ const MapCanvasPlugin = {
   Component: MapItem,
 };
 
-const id = 'mapItem';
 const core = true;
+
 export {
-  id,
   core,
   MapCanvasPlugin,
   MapItemMenuBar as MenuBarPlugin,

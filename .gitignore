@@ -7,3 +7,4 @@ deploy*
 .DS_Store
 .env.*
 Notes.txt
+docs/pluginTutorial/site/*

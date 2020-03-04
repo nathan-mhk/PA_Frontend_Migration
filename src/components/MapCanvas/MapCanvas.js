@@ -13,6 +13,7 @@ import style from './MapCanvas.module.css';
 import { propTypes as urlPropTypes } from '../Router/Url';
 import getConnectedComponent from '../ConnectedComponent/getConnectedComponent';
 import { getMapItemsAction } from '../../reducers/mapItems';
+import { getEdgesAction } from '../../reducers/edges';
 import { PLATFORM } from '../Main/detectPlatform';
 import { TABS } from '../Suggestion/constants';
 import { floorsPropType } from '../../reducers/floors';
@@ -29,6 +30,7 @@ class MapCanvas extends Component {
     children: PropTypes.arrayOf(PropTypes.object),
     ...urlPropTypes,
     getMapItemsHandler: PropTypes.func.isRequired,
+    getEdgesHandler: PropTypes.func.isRequired,
     floorStore: floorsPropType.isRequired,
     appSettingsStore: appSettingsPropType.isRequired,
     pluginSettingsStore: pluginSettingsPropType.isRequired,
@@ -55,7 +57,7 @@ class MapCanvas extends Component {
   };
 
   componentDidMount() {
-    const { linkTo, getMapItemsHandler } = this.props;
+    const { linkTo, getMapItemsHandler, getEdgesHandler } = this.props;
 
     this.canvasHandler.addMouseUpListener(({ x, y, floor, level }) => {
       // update position param if changed due to mouse event
@@ -115,16 +117,18 @@ class MapCanvas extends Component {
             [leftX, topY, _width, _height].every(v => !Number.isNaN(v)) && !isNil(_floor);
 
           if (isPositionReady) {
-            getMapItemsHandler(
-              _floor,
-              [parseInt(leftX, 10), parseInt(topY, 10)],
-              parseInt(_width, 10),
-              parseInt(_height, 10),
-            );
+            [getMapItemsHandler, getEdgesHandler].forEach(callback => {
+              callback(
+                _floor,
+                [parseInt(leftX, 10), parseInt(topY, 10)],
+                parseInt(_width, 10),
+                parseInt(_height, 10),
+              );
+            });
           }
         },
         1000,
-        { leading: false },
+        { leading: true },
       ),
     );
 
@@ -185,6 +189,44 @@ class MapCanvas extends Component {
     }
   }
 
+  getPosition = () => {
+    const {
+      width,
+      height,
+      normalizedWidth,
+      normalizedHeight,
+      x,
+      y,
+      floor,
+      scaledX,
+      scaledY,
+      leftX,
+      topY,
+      screenLeftX,
+      screenTopY,
+      nextLevel,
+      previousLevel,
+    } = this.canvasHandler.getListenerParamObject();
+
+    return {
+      width,
+      height,
+      normalizedWidth,
+      normalizedHeight,
+      floor,
+      movingX: x,
+      movingY: y,
+      movingScaledX: scaledX,
+      movingScaledY: scaledY,
+      movingLeftX: leftX,
+      movingTopY: topY,
+      movingScreenLeftX: screenLeftX,
+      movingScreenTopY: screenTopY,
+      nextLevel,
+      previousLevel,
+    };
+  };
+
   updateCanvasDimension = () => {
     this.canvasHandler.updateLevelToScale(this.props.appSettingsStore.levelToScale);
 
@@ -199,26 +241,17 @@ class MapCanvas extends Component {
     });
   };
 
-  showPluginTogglePanel = () => {
-    this.setState({
-      pluginPanelClosed: false,
-    });
-  };
-
   hidePluginTogglePanel = () => {
     this.setState({
       pluginPanelClosed: true,
     });
   };
 
-  updatePosition() {
-    const { x, y, floor, level } = this.props;
-    const isPositionReady = [x, y, level, floor].every(v => !isNil(v));
-    if (!isPositionReady) {
-      return;
-    }
-    this.canvasHandler.updatePosition(x, y, floor, level);
-  }
+  showPluginTogglePanel = () => {
+    this.setState({
+      pluginPanelClosed: false,
+    });
+  };
 
   restrictOutOfBoundary({
     newLeftX = null,
@@ -268,6 +301,15 @@ class MapCanvas extends Component {
       .map(v => Math.round(v));
   }
 
+  updatePosition() {
+    const { x, y, floor, level } = this.props;
+    const isPositionReady = [x, y, level, floor].every(v => !isNil(v));
+    if (!isPositionReady) {
+      return;
+    }
+    this.canvasHandler.updatePosition(x, y, floor, level);
+  }
+
   render() {
     const {
       children,
@@ -314,6 +356,7 @@ class MapCanvas extends Component {
                 }
 
                 const PluginComponent = getConnectedComponent(
+                  id,
                   `mapCanvasMenuBar_${id}`,
                   MenuBarPlugin.connect,
                   MenuBarPlugin.Component,
@@ -331,6 +374,7 @@ class MapCanvas extends Component {
                         platform,
                         linkTo,
                         APIEndpoint,
+                        getPosition: this.getPosition,
                       },
                       MenuBarPlugin.connect,
                     )}
@@ -363,6 +407,7 @@ class MapCanvas extends Component {
               }
 
               const PluginComponent = getConnectedComponent(
+                id,
                 `mapCanvas_${id}`,
                 MapCanvasPlugin.connect,
                 MapCanvasPlugin.Component,
@@ -380,6 +425,7 @@ class MapCanvas extends Component {
                       platform,
                       linkTo,
                       APIEndpoint,
+                      getPosition: this.getPosition,
                     },
                     MapCanvasPlugin.connect,
                   )}
@@ -417,6 +463,9 @@ export default connect(
   dispatch => ({
     getMapItemsHandler: (floor, [startX, startY], width, height) => {
       dispatch(getMapItemsAction(floor, [startX, startY], width, height));
+    },
+    getEdgesHandler: (floor, [startX, startY], width, height) => {
+      dispatch(getEdgesAction(floor, [startX, startY], width, height));
     },
   }),
 )(MapCanvas);

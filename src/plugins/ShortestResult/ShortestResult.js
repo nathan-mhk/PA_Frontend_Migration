@@ -207,7 +207,6 @@ class ShortestResultPrimaryPanel extends Component {
   }
 }
 
-const id = 'shortestResult';
 const core = true;
 const PrimaryPanelPlugin = {
   connect: [
@@ -222,4 +221,4 @@ const PrimaryPanelPlugin = {
   Component: ShortestResultPrimaryPanel,
 };
 
-export { id, core, PrimaryPanelPlugin, MapCanvasPlugin };
+export { core, PrimaryPanelPlugin, MapCanvasPlugin };

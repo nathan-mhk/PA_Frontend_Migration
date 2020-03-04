@@ -2,11 +2,11 @@ import ConnectedComponent from './ConnectedComponent';
 
 const cachedComponents = {};
 
-function getConnectedComponent(id, connect, component, urlParams, linkTo) {
-  if (!cachedComponents[id]) {
-    cachedComponents[id] = ConnectedComponent(connect, urlParams, linkTo)(component);
+function getConnectedComponent(id, instanceId, connect, component) {
+  if (!cachedComponents[instanceId]) {
+    cachedComponents[instanceId] = ConnectedComponent(id, connect)(component);
   }
-  return cachedComponents[id];
+  return cachedComponents[instanceId];
 }
 
 export default getConnectedComponent;

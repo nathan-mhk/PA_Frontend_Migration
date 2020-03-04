@@ -138,7 +138,6 @@ const MapCanvasPlugin = {
   connect: ['appSettingStore', 'floorStore', 'setMapItems', 'linkTo', 'addWheelListener'],
 };
 
-const id = 'campusBuildingOverlay';
 const core = true;
 
-export { id, core, MapCanvasPlugin };
+export { core, MapCanvasPlugin };

@@ -375,4 +375,4 @@ const MapCanvasPlugin = {
 const defaultOff = false;
 const platform = ['DESKTOP'];
 
-export { id, MapCanvasPlugin, name, defaultOff, platform };
+export { MapCanvasPlugin, name, defaultOff, platform };

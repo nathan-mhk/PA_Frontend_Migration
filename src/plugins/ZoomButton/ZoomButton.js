@@ -39,7 +39,6 @@ const MapCanvasPlugin = {
   connect: ['nextLevel', 'previousLevel', 'level', 'linkTo', 'platform'],
 };
 
-const id = 'zoomButton';
 const core = true;
 
-export { id, core, MapCanvasPlugin };
+export { core, MapCanvasPlugin };

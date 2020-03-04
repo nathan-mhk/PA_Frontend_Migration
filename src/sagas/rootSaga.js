@@ -5,6 +5,7 @@ import searchNearestRequestWatcher from './watchers/searchNearestRequestWatcher'
 import searchShortestPathRequestWatcher from './watchers/searchShortestPathRequestWatcher';
 import fetchInitDataRequestWatcher from './watchers/fetchInitDataRequestWatcher';
 import nearestMapItemRequestWatcher from './watchers/nearestMapItemRequestWatcher';
+import edgesRequestWatcher from './watchers/edgesRequestWatcher';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     searchShortestPathRequestWatcher(),
     fetchInitDataRequestWatcher(),
     nearestMapItemRequestWatcher(),
+    edgesRequestWatcher(),
   ]);
 }

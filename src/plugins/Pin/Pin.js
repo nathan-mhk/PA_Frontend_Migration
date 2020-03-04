@@ -37,7 +37,6 @@ const MapCanvasPlugin = {
   connect: ['from', 'setMapItems', 'removeMapItem'],
 };
 
-const id = 'pin';
 const core = true;
 
-export { id, core, MapCanvasPlugin };
+export { core, MapCanvasPlugin };

@@ -1,0 +1,10 @@
+site_name: Pathadvisor plugin tutorial
+theme: readthedocs
+nav:
+  - Home: index.md
+  - 1. Mock API: api.md
+  - 2. Get it up and running: setup.md
+  - 3. Plugin 1 - Traffic / air quality heat map: heat-map.md
+  - 4. Plugin 2 - Traffic / air quality route: route.md
+  - 5. Plugin 3 - Number and air quality for rooms: roominfo.md
+  - 6. Pull request: pullrequest.md

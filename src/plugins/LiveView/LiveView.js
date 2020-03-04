@@ -26,8 +26,6 @@ const GetLiveViewOverlayContent = style =>
     ) : null;
   };
 
-const id = 'liveView';
-
 const OverlayContentPlugin = {
   connect: [],
   Component: GetLiveViewOverlayContent(desktopStyle),
@@ -84,4 +82,4 @@ const MapCanvasPlugin = {
 };
 
 const core = true;
-export { id, core, MapCanvasPlugin, OverlayContentPlugin, MobileOverlayContentPlugin };
+export { core, MapCanvasPlugin, OverlayContentPlugin, MobileOverlayContentPlugin };

@@ -1,0 +1,10 @@
+{
+  "name": "@ust-pathadvisor/traffic-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "lodash.throttle": "^4.1.1",
+    "react": "^16.4.1",
+    "whatwg-fetch": "^3.0.0"
+  }
+}

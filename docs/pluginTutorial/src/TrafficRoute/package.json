@@ -1,0 +1,11 @@
+{
+  "name": "@ust-pathadvisor/traffic-route-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@turf/helpers": "^6.1.4",
+    "@turf/line-intersect": "^6.0.2",
+    "react": "^16.4.1",
+    "whatwg-fetch": "^3.0.0"
+  }
+}

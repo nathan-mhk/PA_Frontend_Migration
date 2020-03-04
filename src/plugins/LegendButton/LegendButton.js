@@ -49,8 +49,7 @@ const MapCanvasPlugin = {
   connect: ['legendStore'],
 };
 
-const id = 'legendButton';
 const platform = ['MOBILE'];
 const core = true;
 
-export { id, core, platform, MapCanvasPlugin };
+export { core, platform, MapCanvasPlugin };

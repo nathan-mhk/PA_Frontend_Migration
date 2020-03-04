@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import isNil from 'lodash.isnil';
 import PrimaryPanel from '../PrimaryPanel/PrimaryPanel';
 import TopPanel from '../TopPanel/TopPanel';
-import allPlugins from '../../plugins';
+import allPlugins from '../../utils/getPlugins';
 import MapCanvas from '../MapCanvas/MapCanvas';
 import { parseParams, build as buildUrl } from '../Router/Url';
 import style from './Main.module.css';

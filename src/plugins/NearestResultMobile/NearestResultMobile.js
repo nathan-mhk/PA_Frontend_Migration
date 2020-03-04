@@ -111,7 +111,6 @@ class NearestResultMobile extends Component {
   }
 }
 
-const id = 'nearestResultMobile';
 const MapCanvasPlugin = {
   Component: NearestResultMobile,
   connect: [
@@ -130,4 +129,4 @@ const MapCanvasPlugin = {
 const core = true;
 const platform = ['MOBILE'];
 
-export { id, core, platform, MapCanvasPlugin };
+export { core, platform, MapCanvasPlugin };

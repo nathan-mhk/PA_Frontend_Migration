@@ -95,7 +95,6 @@ export class NearestResult extends Component {
   }
 }
 
-const id = 'nearestResult';
 const core = true;
 
 const PrimaryPanelPlugin = {
@@ -103,4 +102,4 @@ const PrimaryPanelPlugin = {
   connect: ['searchNearestStore', 'floorStore', 'linkTo', 'searchOptionsStore'],
 };
 
-export { id, core, PrimaryPanelPlugin };
+export { core, PrimaryPanelPlugin };
