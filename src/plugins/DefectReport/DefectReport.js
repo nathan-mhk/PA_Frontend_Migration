@@ -4,7 +4,6 @@ import buttonImg from './button.png';
 import buttonGo from './button_go.png';
 import style from './DefectReport.module.css';
 
-// testing
 class DefectReport extends Component {
   componentDidUpdate(prevProps) {
     const { x, y, movingX, movingY, floor, enhanceMapItemsHandler } = this.props;
@@ -63,21 +62,36 @@ function ReportUI({name,others}) {
     <div>
       <div style={{marginTop: "20px"}}>Defect Location:  </div>
       <div style={{marginTop: "20px"}}>
-        <table>
-          <tr>
-            <th>
-              <input type="text"></input>
-            </th>
-            <th>
-              <button
-                className={style.button}
-                type="button"
-              >
-                <img className={style.goButtonImage} src={buttonGo} alt="GO button" />
-              </button>
-            </th>
-          </tr>
-        </table>
+        <SearchFunction
+          // from={null}
+          // to={null}
+          // via={null}
+          // search={null}
+          // searchOptions={null}
+          // x={null}
+          // y={null}
+          // floor={null}
+          // level={null}
+          // displayAdvancedSearch={null}
+          // linkTo={null}
+          SearchView={SearchPrimaryPanelView}
+          // logger={null}
+        />
+        {/*<table>*/}
+        {/*  <tr>*/}
+        {/*    <th>*/}
+        {/*      <input type="text"></input>*/}
+        {/*    </th>*/}
+        {/*    <th>*/}
+        {/*      <button*/}
+        {/*        className={style.button}*/}
+        {/*        type="button"*/}
+        {/*      >*/}
+        {/*        <img className={style.goButtonImage} src={buttonGo} alt="GO button" />*/}
+        {/*      </button>*/}
+        {/*    </th>*/}
+        {/*  </tr>*/}
+        {/*</table>*/}
       </div>
       <div className={style.topMagrin}>
       <button
