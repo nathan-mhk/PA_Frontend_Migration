@@ -1,0 +1,9 @@
+{
+  "name": "@ust-pathadvisor/defect-report",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react": "^16.4.1"
+  }
+}

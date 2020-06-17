@@ -171,6 +171,11 @@ class ContextMenu extends Component {
                 Ends here
               </button>
             </li>
+            <li>
+              <button type="button" className={style.button} onClick={()=>window.open('https://maximo.ust.hk/maximo','_blank')}>
+                Report Defect
+              </button>
+            </li>
           </>
         ) : null}
         <li>
