@@ -4,6 +4,7 @@ import buttonImg from './button.png';
 import buttonGo from './button_go.png';
 import style from './DefectReport.module.css';
 
+// testing
 class DefectReport extends Component {
   componentDidUpdate(prevProps) {
     const { x, y, movingX, movingY, floor, enhanceMapItemsHandler } = this.props;
