@@ -18,6 +18,11 @@
   height: 36px;
 }
 
+.goButtonImage {
+  width: 24px;
+  height: 24px;
+}
+
 .disabled {
   opacity: 0.4;
   cursor: default;
@@ -30,4 +35,25 @@
   padding: 8px;
   width: 36px;
   height: 36px;
+}
+
+.serachBar {
+  font-weight: bold;
+  font-size: 13px;
+  border-bottom: 1px solid #cccccc;
+  padding: 5px 0;
+  display: inline-block;
+  text-align: initial;
+  vertical-align: middle;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+.topMagrin {
+  margin-top: 50px;
+}
+
+.floatRIght {
+  float: right;
 }
