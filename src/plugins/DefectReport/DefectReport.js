@@ -55,7 +55,17 @@ class DefectReport extends Component {
     const {
       platform,
       openOverlayHandler,
+      movingX,
+      movingY,
     } = this.props;
+
+    let others = {
+      x: this.props.x,
+      y: this.props.y,
+      level: this.props.level,
+      floor: this.props.floor,
+      linkTo: this.props.linkTo,
+    };
 
     const buttonClassName = classnames({
       [style.buttonImage]: platform !== 'MOBILE',
@@ -67,7 +77,7 @@ class DefectReport extends Component {
         <button
           className={style.button}
           type="button"
-          onClick={() => openOverlayHandler('Defect Report', null, null, null)}
+          onClick={() => openOverlayHandler('Defect Report', '', '', others)}
         >
           <img className={buttonClassName} src={buttonImg} alt="Defect Report" />
         </button>
@@ -86,7 +96,7 @@ class ReportUI extends Component {
   };
 
   render() {
-    if (name !== 'Defect Report')
+    if (this.props.name !== 'Defect Report')
       return null;
 
     const {
