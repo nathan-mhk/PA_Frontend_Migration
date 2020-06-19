@@ -3,10 +3,22 @@ import classnames from 'classnames';
 import buttonImg from './button.png';
 import buttonGo from './button_go.png';
 import style from './DefectReport.module.css';
+import FloorPrimaryPanelView from "../../components/FloorPrimaryPanelView/FloorPrimaryPanelView";
+import Floor from "../../components/Floor/Floor";
 
 class DefectReport extends Component {
   componentDidUpdate(prevProps) {
-    const { x, y, movingX, movingY, floor, enhanceMapItemsHandler } = this.props;
+    const {
+      x,
+      y,
+      level,
+      floor,
+      linkTo,
+      movingX,
+      movingY,
+      enhanceMapItemsHandler
+    } = this.props;
+
     const { success, mapItems } = this.props.mapItemStore;
 
     if ((prevProps && !prevProps.mapItemStore.loading) || !success) {
@@ -18,7 +30,16 @@ class DefectReport extends Component {
     enhanceMapItemsHandler([
       {
         id: reportId,
-        others: { xLoc: x, yLoc: y, xMoving: movingX, yMoving: movingY, locFloor: floor, state:true},
+        others: {
+          x: x,
+          y: y,
+          level: level,
+          floor: floor,
+          linkTo: linkTo,
+          movingX: movingX,
+          movingY: movingY,
+          state: true,
+        },
       },
     ]);
 
@@ -31,7 +52,21 @@ class DefectReport extends Component {
   }
 
   render() {
-    const { platform, openOverlayHandler } = this.props;
+    const {
+      platform,
+      openOverlayHandler,
+      movingX,
+      movingY,
+    } = this.props;
+
+    let others = {
+      x: this.props.x,
+      y: this.props.y,
+      level: this.props.level,
+      floor: this.props.floor,
+      linkTo: this.props.linkTo,
+    };
+
     const buttonClassName = classnames({
       [style.buttonImage]: platform !== 'MOBILE',
       [style.buttonImageMobile]: platform === 'MOBILE',
@@ -42,7 +77,7 @@ class DefectReport extends Component {
         <button
           className={style.button}
           type="button"
-          onClick={() => openOverlayHandler('Defect Report')}
+          onClick={() => openOverlayHandler('Defect Report', '', '', others)}
         >
           <img className={buttonClassName} src={buttonImg} alt="Defect Report" />
         </button>
@@ -51,58 +86,76 @@ class DefectReport extends Component {
   }
 }
 
-function ReportUI({name,others}) {
-  if(name!=='Defect Report')
-    return null;
-  let x = others.xLoc, y = others.yLoc,
-    movingX = others.xMoving, movingY = others.yMoving,
-    floor = others.locFloor;
+class ReportUI extends Component {
+  state = {
+    selectedBuilding: 'academicBuilding',
+  };
 
-  return (
-    <div>
-      <div style={{marginTop: "20px"}}>Defect Location:  </div>
-      <div style={{marginTop: "20px"}}>
-        <SearchFunction
-          // from={null}
-          // to={null}
-          // via={null}
-          // search={null}
-          // searchOptions={null}
-          // x={null}
-          // y={null}
-          // floor={null}
-          // level={null}
-          // displayAdvancedSearch={null}
-          // linkTo={null}
-          SearchView={SearchPrimaryPanelView}
-          // logger={null}
-        />
-        {/*<table>*/}
-        {/*  <tr>*/}
-        {/*    <th>*/}
-        {/*      <input type="text"></input>*/}
-        {/*    </th>*/}
-        {/*    <th>*/}
-        {/*      <button*/}
-        {/*        className={style.button}*/}
-        {/*        type="button"*/}
-        {/*      >*/}
-        {/*        <img className={style.goButtonImage} src={buttonGo} alt="GO button" />*/}
-        {/*      </button>*/}
-        {/*    </th>*/}
-        {/*  </tr>*/}
-        {/*</table>*/}
-      </div>
-      <div className={style.topMagrin}>
-      <button
-          className={style.button}
-          type="button"
-         onClick={()=>window.open('https://maximo.ust.hk/maximo','_blank')}
-        ><img className={style.buttonImage} src={buttonImg} alt="Defect Report" /></button>
-      </div>
-    </div>
+  selectBuildingAction = selectedBuilding => {
+    this.setState({ selectedBuilding });
+  };
 
-  );
+  render() {
+    if (this.props.name !== 'Defect Report')
+      return null;
+
+    const {
+      x,
+      y,
+      level,
+      floor,
+      linkTo,
+      movingX,
+      movingY,
+    } = this.props.others;
+
+    const {
+      selectedBuilding,
+    } = this.state;
+
+    return (
+      <div>
+        <div>
+          <Floor
+            selectedBuilding={selectedBuilding}
+            selectedBuildingAction={this.selectBuildingAction}
+            x={x}
+            y={y}
+            level={level}
+            currentFloorId={floor}
+            linkTo={linkTo}
+            FloorView={FloorPrimaryPanelView}
+          />
+        </div>
+        {/*<div style={{marginTop: "20px"}}>Defect Location:</div>*/}
+        {/*<div style={{marginTop: "20px"}}>*/}
+        {/*  <table>*/}
+        {/*    <tr>*/}
+        {/*      <th>*/}
+        {/*        <input type="text"></input>*/}
+        {/*      </th>*/}
+        {/*      <th>*/}
+        {/*        <button*/}
+        {/*          className={style.button}*/}
+        {/*          type="button"*/}
+        {/*        >*/}
+        {/*          <img className={style.goButtonImage} src={buttonGo} alt="GO button"/>*/}
+        {/*        </button>*/}
+        {/*      </th>*/}
+        {/*    </tr>*/}
+        {/*  </table>*/}
+        {/*</div>*/}
+        <div className={style.topMagrin}>
+          <button
+            className={style.button}
+            type="button"
+            onClick={() => window.open('https://maximo.ust.hk/maximo', '_blank')}
+          ><img className={style.buttonImage} src={buttonImg} alt="Defect Report"/></button>
+        </div>
+      </div>
+
+    );
+  }
 }
 
 const defaultOff = false;
@@ -114,14 +167,16 @@ const MapCanvasPlugin = {
   connect: [
     'x',
     'y',
+    'level',
+    'floor',
+    'linkTo',
+    'mapItemStore',
+    'enhanceMapItemsHandler',
+    'clearPluginMapItemsHandler',
+    'openOverlayHandler',
+    'platform',
     'movingX',
     'movingY',
-    'floor',
-    'platform',
-    'openOverlayHandler',
-    'clearPluginMapItemsHandler',
-    'enhanceMapItemsHandler',
-    'mapItemStore',
   ],
 };
 

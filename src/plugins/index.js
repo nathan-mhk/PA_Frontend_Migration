@@ -11,7 +11,7 @@ import * as LegendButton from './LegendButton/LegendButton';
 import * as ContextMenu from './ContextMenu/ContextMenu';
 import * as LiveView from './LiveView/LiveView';
 import * as StreetView from './StreetView/StreetView';
-import * as DefectReport from './DefectReport/DefectReport'
+import * as DefectReport from './DefectReport/DefectReport';
 
 export default [
   MapTile,
